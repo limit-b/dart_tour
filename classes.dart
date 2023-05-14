@@ -12,7 +12,13 @@
  * method 내에서 같은 이름의 variable가 있어서 어쩔 수 없을 경우에만 사용
  * 
  * 클래스 생성자도 함수처럼 Positional Parameter, Named Parameter로 구분
- * -> 역시나 너무 많은 Positional Parameter는 혼란스러워짐
+ * -> 역시나 너무 많은 Positional Parameter는 혼란스러워짐,
+ * Named Parameter로 혼란 방지
+ * 
+ * Named Constructor는 생성자에 이름과 역할을 부여하는 방식으로
+ * 기존 생성자에 비해서 더 명시적인 방식
+ * => 자바의 생성자 오버로딩(다형성을 위해 같은 이름의 메소드를 재정의)과 비슷함,
+ * 다만 메소드의 이름이 다름을 이용하여 역할을 구분함
  */
 void main(List<String> args) {
   var playerLate = PlayerLate('jaehane', 1500);
@@ -47,6 +53,15 @@ void main(List<String> args) {
 
   namedParamPlayer.sayHello();
   namedParamPlayer2.sayHello();
+
+  var bluePlayer = NamedConstructPlayer.createBluePlayer(
+    name: 'jaehan',
+    age: 28,
+  );
+  var redPlayer = NamedConstructPlayer.createRedPlayer('nico', 30);
+
+  bluePlayer.sayHello();
+  redPlayer.sayHello();
 }
 
 class PlayerLate {
@@ -102,12 +117,26 @@ class NamedParamPlayer {
   }
 }
 
-// class NamedConstrucPlayer {
-//   final String name;
-//   int xp, age;
-//   String team;
+class NamedConstructPlayer {
+  final String name;
+  int xp, age;
+  String team;
 
-//   void sayHello() {
-//     print("Hi, my name is $name");
-//   }
-// }
+  NamedConstructPlayer.createBluePlayer({
+    required String name,
+    required int age,
+  })  : this.name = name,
+        this.xp = 0,
+        this.age = age,
+        this.team = 'blue';
+
+  NamedConstructPlayer.createRedPlayer(String name, int age)
+      : this.name = name,
+        this.xp = 0,
+        this.age = age,
+        this.team = 'red';
+
+  void sayHello() {
+    print("Hi, my name is $name");
+  }
+}
