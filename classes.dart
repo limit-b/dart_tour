@@ -17,17 +17,31 @@
  * 
  * Named Constructor는 생성자에 이름과 역할을 부여하는 방식으로
  * 기존 생성자에 비해서 더 명시적인 방식
- * => 자바의 생성자 오버로딩(다형성을 위해 같은 이름의 메소드를 재정의)과 비슷함,
+ * -> 자바의 생성자 오버로딩(다형성을 위해 같은 이름의 메소드를 재정의)과 비슷함,
  * 다만 메소드의 이름이 다름을 이용하여 역할을 구분함
  * 
  * API로 JSON format 데이터를 받으면 Class로 바꿔야 함
+ * 
+ * Cascade Notation
+ * 생성된 동일한 인스턴스의 필드변수 재할당이나 메소드 호출을 순차적으로 실행하고자
+ * 할 때 사용함
  */
 void main(List<String> args) {
   var playerLate = PlayerLate('jaehane', 1500);
   var playerLate2 = PlayerLate('john', 2500);
 
-  var player = Player('nico', 3000, 'red', 12);
-  var player2 = Player('lynn', 2500, 'blue', 12);
+  var player = Player(
+    name: 'nico',
+    xp: 3000,
+    team: 'red',
+    age: 12,
+  );
+  var player2 = Player(
+    name: 'lynn',
+    xp: 2500,
+    team: 'blue',
+    age: 12,
+  );
 
   var namedParamPlayer = NamedParamPlayer(
     name: 'nico',
@@ -67,7 +81,7 @@ void main(List<String> args) {
 
   var apiData = [
     {
-      "name": "jaehane",
+      "name": "jaehan",
       "team": "red",
       "age": 30,
       "xp": 0,
@@ -91,6 +105,25 @@ void main(List<String> args) {
     var player = Player.fromJson(playerJson);
     player.sayHello();
   });
+
+  var cascadePlayer = Player(
+    name: 'cascade',
+    xp: 3000,
+    team: 'blue',
+    age: 30,
+  );
+
+  print("==> cascade");
+  cascadePlayer.sayHello();
+
+  cascadePlayer
+    ..name = 'jaehan'
+    ..xp = 2000
+    ..team = 'red'
+    ..age = 25
+    ..sayHello()
+    ..name = "jeonjaehan"
+    ..sayHello();
 }
 
 class PlayerLate {
@@ -110,17 +143,17 @@ class PlayerLate {
 }
 
 class Player {
-  final String name;
+  String name;
   int xp, age;
   String team;
 
   // late 없이 더 간단한 생성자
-  Player(
-    this.name,
-    this.xp,
-    this.team,
-    this.age,
-  );
+  Player({
+    required this.name,
+    required this.xp,
+    required this.team,
+    required this.age,
+  });
 
   Player.fromJson(Map<String, dynamic> playerJson)
       : name = playerJson['name'],
