@@ -19,6 +19,8 @@
  * 기존 생성자에 비해서 더 명시적인 방식
  * => 자바의 생성자 오버로딩(다형성을 위해 같은 이름의 메소드를 재정의)과 비슷함,
  * 다만 메소드의 이름이 다름을 이용하여 역할을 구분함
+ * 
+ * API로 JSON format 데이터를 받으면 Class로 바꿔야 함
  */
 void main(List<String> args) {
   var playerLate = PlayerLate('jaehane', 1500);
@@ -62,6 +64,33 @@ void main(List<String> args) {
 
   bluePlayer.sayHello();
   redPlayer.sayHello();
+
+  var apiData = [
+    {
+      "name": "jaehane",
+      "team": "red",
+      "age": 30,
+      "xp": 0,
+    },
+    {
+      "name": "limit",
+      "team": "red",
+      "age": 20,
+      "xp": 0,
+    },
+    {
+      "name": "john",
+      "team": "red",
+      "age": 10,
+      "xp": 0,
+    },
+  ];
+
+  print("==> apiData");
+  apiData.forEach((playerJson) {
+    var player = Player.fromJson(playerJson);
+    player.sayHello();
+  });
 }
 
 class PlayerLate {
@@ -92,6 +121,12 @@ class Player {
     this.team,
     this.age,
   );
+
+  Player.fromJson(Map<String, dynamic> playerJson)
+      : name = playerJson['name'],
+        xp = playerJson['xp'],
+        age = playerJson['age'],
+        team = playerJson['team'];
 
   void sayHello() {
     // var name = 'john';
