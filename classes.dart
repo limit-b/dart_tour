@@ -25,6 +25,10 @@
  * Cascade Notation
  * 생성된 동일한 인스턴스의 필드변수 재할당이나 메소드 호출을 순차적으로 실행하고자
  * 할 때 사용함
+ * 
+ * Enums(열거형)
+ * 서로 연관된 상수들의 집합 -> 자바의 열거형과 같음,
+ * 코드가 단순해지며 가독성이 좋아짐 -> 실수를 줄여줌
  */
 void main(List<String> args) {
   var playerLate = PlayerLate('jaehane', 1500);
@@ -124,6 +128,27 @@ void main(List<String> args) {
     ..sayHello()
     ..name = "jeonjaehan"
     ..sayHello();
+
+  EnumPlayer enumPlayer = EnumPlayer(
+    name: 'nico',
+    xp: XPLevel.beginner,
+    age: 35,
+    team: Team.red,
+  );
+
+  print('==> enumPlayer');
+  print("Hello, enum player ${enumPlayer.name}");
+}
+
+enum Team {
+  red,
+  blue,
+}
+
+enum XPLevel {
+  beginner,
+  medium,
+  pro,
 }
 
 class PlayerLate {
@@ -207,4 +232,18 @@ class NamedConstructPlayer {
   void sayHello() {
     print("Hi, my name is $name");
   }
+}
+
+class EnumPlayer {
+  String name;
+  XPLevel xp;
+  int age;
+  Team team;
+
+  EnumPlayer({
+    required this.name,
+    required this.xp,
+    required this.age,
+    required this.team,
+  });
 }
